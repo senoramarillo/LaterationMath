@@ -11,8 +11,8 @@ test classes included
 
 # Git Struktur
 
-* [./algorithm/](https://github.com/senoramarillo/latmath/tree/master/latmath/src/latmath/algorithm) - Algorithm
-* [./latmath/](https://github.com/senoramarillo/latmath/tree/master/latmath/src/latmath) - Source Code
+* [./algorithm/](https://github.com/senoramarillo/LaterationMath/tree/master/LaterationMath/src/latmath/algorithm) - Algorithm
+* [./latmath/](https://github.com/senoramarillo/LaterationMath/tree/master/LaterationMath/src/latmath) - Source Code
 
 # Installation:
 
