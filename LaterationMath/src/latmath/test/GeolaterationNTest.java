@@ -36,7 +36,7 @@ public class GeolaterationNTest {
 		doFilter2 = true;
 		weightRealIntersection = 3.0;
 		weightApproxIntersection = 3.0;
-		medianFactor = 2.0;
+		medianFactor = CENTER_OF_MASS;
 
 		Point2d actual = new Point2d(300, 700);
 
