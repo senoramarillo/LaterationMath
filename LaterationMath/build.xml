@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="latmath" default="default" basedir=".">
+
+    <!-- Ant build file for project latmath -->
+    <!-- Author:  Thomas Hillebrandt        -->
+    <!-- Date:    2011/07/27                -->
+    <!-- Version: 1.0                       -->
+    <description>Builds, tests, and runs the project latmath</description>
+
+    <!-- Load version file -->
+    <property file="project-version.properties"/>
+
+    <!-- Some properties -->
+    <property name="project" value="latmath"/>
+    <property name="packageroot" value="latmath"/>
+
+    <!-- Some application specific properties -->
+    <property name="jar_main_class" value=""/>
+    <property name="jar_classpath" value=""/>
+
+    <!-- JavaDoc info -->
+    <property name="jd_doc_title" value="latmath ${project.version} API Specification"/>
+    <property name="jd_top_text" value="This document is the API specification for version ${project.version} of the latmath package."/>
+    <property name="jd_bottom_text" value="Copyright &#169; 2012-2013 Thomas Hillebrandt. All Rights Reserved."/>
+
+    <!-- Some directory properties -->
+    <property name="build" value="${basedir}${file.separator}build"/>
+    <property name="dist" value="${basedir}${file.separator}dist"/>
+    <property name="doc" value="${basedir}${file.separator}doc"/>
+    <property name="lib" value="${basedir}${file.separator}lib"/>
+    <property name="src" value="${basedir}${file.separator}src"/>
+
+    <!-- Some file name properties -->
+    <property name="jar" value="${project}.jar"/>
+    <property name="zip" value="${project}-${project.version}.zip"/>
+    
+    <path id="project.classpath">
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Delete everything created by the build process -->
+    <target name="clean">
+        <delete dir="${build}" failonerror="false"/>
+        <delete dir="${dist}" failonerror="false"/>
+        <delete dir="${doc}" failonerror="false"/>
+    </target>
+
+    <!-- Create the build directory structure used by compile -->
+    <target name=".init" depends="clean">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${dist}"/>
+        <mkdir dir="${doc}"/>
+    </target>
+
+    <!-- Compile the java code from ${src} into ${build} -->
+    <target name="build" depends=".init">
+        <echo message="Building ${ant.project.name} using ${ant.file} with Java ${ant.java.version}"/>
+        <javac destdir="${build}" compiler="javac1.7" source="1.7" target="1.7" includeantruntime="false" debug="true">
+            <src path="${src}"/>
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
+
+    <!-- Copy all non *.java files (settings, resource bundles, ...) to the build directory -->
+    <!-- and copy the res folder to the dist directory -->
+    <target name=".copyfiles">
+        <copy todir="${build}">
+            <fileset dir="${src}">
+                <exclude name="**/*.java"/>
+                <exclude name="**/*.form"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name=".copylibs">
+        <copy todir="${dist}">
+            <fileset dir="${lib}">
+                <include name="*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- Creates a distribution jar -->
+    <target name="jar" depends="build, .copyfiles, .copylibs">
+        <jar jarfile="${jar}" basedir="${build}">
+            <manifest>
+                <attribute name="Main-Class" value="${jar_main_class}"/>
+                <attribute name="Class-Path" value="${jar_classpath}"/>
+            </manifest>
+        </jar>
+        <move file="${jar}" todir="${dist}"/>
+    </target>
+    
+    <!-- Tries to deploy latmath.jar to dependent projects if found -->
+    <target name="deploy" depends=".check-svn-dirs, jar" if="is.svn.dirs">
+        <copy todir="${basedir}${file.separator}..${file.separator}latviz${file.separator}lib" overwrite="true" failonerror="false" flatten="true">
+            <resources>
+                <file file="${dist}${file.separator}${jar}"/>
+                <file file="${dist}${file.separator}apache-commons-math.jar"/>
+            </resources>
+        </copy>
+        <copy todir="${basedir}${file.separator}..${file.separator}latsim${file.separator}lib" overwrite="true" failonerror="false" flatten="true">
+            <resources>
+                <file file="${dist}${file.separator}${jar}"/>
+                <file file="${dist}${file.separator}apache-commons-math.jar"/>
+            </resources>
+        </copy>
+        <copy todir="${basedir}${file.separator}..${file.separator}LaterationShooterGUI${file.separator}lib" overwrite="true" failonerror="false" flatten="true">
+            <resources>
+                <file file="${dist}${file.separator}${jar}"/>
+                <file file="${dist}${file.separator}apache-commons-math.jar"/>
+            </resources>
+        </copy>
+    </target>
+    
+    <target name=".check-svn-dirs">
+        <condition property="is.svn.dirs">
+            <and>
+                <available file="${basedir}${file.separator}..${file.separator}latviz" type="dir"/>
+                <available file="${basedir}${file.separator}..${file.separator}latsim" type="dir"/>
+                <available file="${basedir}${file.separator}..${file.separator}LaterationShooterGUI" type="dir"/>
+            </and>
+        </condition>
+        <fail message="Unable to find dependent project directories (by SVN directory names)">
+            <condition>
+              <not>
+                <isset property="is.svn.dirs"/>
+              </not>
+            </condition>
+        </fail>
+    </target>
+
+    <!-- Creates javadocs for public APIs into the ${doc} directory -->
+    <target name="javadoc" depends="jar">
+        <javadoc packagenames="${packageroot}.*"
+            destdir="${doc}"
+            sourcepath="${src}"
+            classpathref="project.classpath"
+            access="public"
+            use="true"
+            notree="false"
+            nonavbar="false"
+            noindex="false"
+            splitindex="true"
+            author="true"
+            version="true"
+            nodeprecatedlist="false"
+            nodeprecated="false">
+            <doctitle><![CDATA[<h1>${jd_doc_title}</h1><div align="left"><p>${jd_top_text}</p></div>]]></doctitle>
+            <bottom><![CDATA[<i>${jd_bottom_text}</i>]]></bottom>
+            <link href="http://docs.oracle.com/javase/7/docs/api"/>
+        </javadoc>
+    </target>
+
+    <target name="zip" depends="javadoc">
+        <echo file="${dist}${file.separator}readme.txt">latmath API ${project.version} release${line.separator}${line.separator}Contents:${line.separator}${line.separator}src&#x0009;&#x0009;&#x0009;Source code${line.separator}docs&#x0009;&#x0009;&#x0009;Documentation, e.g. javadocs${line.separator}latmath.jar&#x0009;&#x0009;The latmath API, mainly *only* this jar file is needed${line.separator}readme.txt&#x0009;&#x0009;This file${line.separator}${line.separator}Installation:${line.separator}${line.separator}  1. Unzip the latmath-${project.version}.zip archive.${line.separator}     (You may have already done this.)${line.separator}${line.separator}  2. Set your CLASSPATH to include the "latmath.jar" file obtained from${line.separator}     the download, as well as the current directory.</echo>
+        <zip destfile="${zip}">
+            <zipfileset dir="${src}" prefix="src"/>
+            <zipfileset dir="${doc}" prefix="docs/javadoc"/>
+            <zipfileset dir="${dist}" includes="${jar}"/>
+            <zipfileset dir="${dist}" includes="readme.txt"/>
+        </zip>
+        <move file="${zip}" todir="${dist}"/>
+    </target>
+
+</project>
