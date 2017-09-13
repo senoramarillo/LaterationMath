@@ -9,5 +9,4 @@ public class MatlabFilesTest {
 		MatFileReader matfilereader = new MatFileReader();
 		double[][] mlArrayDouble = ((MLDouble) matfilereader.getMLArray("data")).getArray();
 	}
-
 }
