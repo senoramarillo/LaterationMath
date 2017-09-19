@@ -81,9 +81,8 @@ public class MatlabGeolaterationNOTest {
 					doFilter1IncludeApprox, GEOMETRIC_MEDIAN, doFilter2, APPROX_1, finalPositionAlgorithm, weigher);
 
 			System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
-			// System.out.println(estimate.x);
-			// System.out.println(estimate.y);
+			//System.out.println(estimate.x);
+			//System.out.println(estimate.y);
 		}
 	}
-
 }

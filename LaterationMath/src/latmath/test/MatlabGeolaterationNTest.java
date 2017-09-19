@@ -61,8 +61,8 @@ public class MatlabGeolaterationNTest {
 					weightApproxIntersection, CENTER_OF_MASS);
 
 			System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
-			// System.out.println(estimate.x);
-			// System.out.println(estimate.y);
+			//System.out.println(estimate.x);
+			//System.out.println(estimate.y);
 		}
 	}
 }
