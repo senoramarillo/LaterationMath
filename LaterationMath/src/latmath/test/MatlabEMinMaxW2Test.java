@@ -18,7 +18,7 @@ public class MatlabEMinMaxW2Test {
 				new Point2d(26.0127689243310, 9.01743205528970), new Point2d(30.8588226401950, 9.19865358007020),
 				new Point2d(30.6951496849370, 1.20326677881980), new Point2d(26.5792387026600, 1.27245974100970) };
 
-		MatFileReader matfilereader = new MatFileReader("distance_7_398.mat");
+		MatFileReader matfilereader = new MatFileReader("distance_7_398_2700.mat");
 		double[][] mlArrayDouble = ((MLDouble) matfilereader.getMLArray("distance_to_anchor")).getArray();
 		Point2d estimate;
 		double[] temp;
@@ -28,8 +28,8 @@ public class MatlabEMinMaxW2Test {
 			estimate = latmath.algorithm.EMinMaxW2.multilaterate(anchors, temp);
 
 			System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
-			// System.out.println(estimate.x);
-			// System.out.println(estimate.y);
+			//System.out.println(estimate.x);
+			//System.out.println(estimate.y);
 		}
 	}
 }
