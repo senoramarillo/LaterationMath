@@ -49,7 +49,7 @@ public class MatlabGeolaterationNTest {
 				new Point2d(26.0127689243310, 9.01743205528970), new Point2d(30.8588226401950, 9.19865358007020),
 				new Point2d(30.6951496849370, 1.20326677881980), new Point2d(26.5792387026600, 1.27245974100970) };
 
-		MatFileReader matfilereader = new MatFileReader("distance_7_398_2700.mat");
+		MatFileReader matfilereader = new MatFileReader("distance_7_398_795.mat");
 		double[][] mlArrayDouble = ((MLDouble) matfilereader.getMLArray("distance_to_anchor")).getArray();
 		Point2d estimate;
 		double[] temp;
