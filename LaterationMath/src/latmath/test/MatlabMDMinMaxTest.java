@@ -44,9 +44,9 @@ public class MatlabMDMinMaxTest {
 			temp = rm.getRow(v);
 			estimate = latmath.algorithm.MDMinMax.multilaterate(anchors, temp, weightingAttrs);
 
-			// System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
+			System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
 			// System.out.println(estimate.x);
-			System.out.println(estimate.y);
+			// System.out.println(estimate.y);
 		}
 	}
 }

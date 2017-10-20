@@ -13,15 +13,6 @@ public class MatlabEMinMaxW2Test {
 	// use W-2 weight as it is optimum of paper
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
-		/*
-		 * Point2d[] anchors = new Point2d[] { new Point2d(24.5626016260160,
-		 * 2.29970731707320), new Point2d(23.1605118679050, 8.57622125902990), new
-		 * Point2d(24.7228648090820, 12.1175545923630), new Point2d(26.0127689243310,
-		 * 9.01743205528970), new Point2d(30.8588226401950, 9.19865358007020), new
-		 * Point2d(30.6951496849370, 1.20326677881980), new Point2d(26.5792387026600,
-		 * 1.27245974100970) };
-		 */
-
 		/* Simluation 1 anchors */
 		Point2d[] anchors = new Point2d[] { new Point2d(81.4723686393179, 15.7613081677548),
 				new Point2d(90.5791937075619, 97.0592781760616), new Point2d(12.6986816293506, 95.7166948242946),
@@ -39,8 +30,8 @@ public class MatlabEMinMaxW2Test {
 			temp = rm.getRow(v);
 			estimate = latmath.algorithm.EMinMaxW2.multilaterate(anchors, temp);
 
-			System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
-			// System.out.println(estimate.x);
+			// System.out.println(v + 1 + ")" + " Final estimated position: " + estimate);
+			System.out.println(estimate.x);
 			// System.out.println(estimate.y);
 		}
 	}
