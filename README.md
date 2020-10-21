@@ -1,4 +1,4 @@
-# LaterationMath API 0.2 release 
+# LaterationMath API 0.1 release 
 
 This library contains all localization algorithms found in the LS² package in the Java programming language for use in different projects. For more information see the included readme file.
 
